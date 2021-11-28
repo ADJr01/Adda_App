@@ -1,0 +1,106 @@
+.profile {
+    width: 100%;
+    height: 100%;
+    margin-top: 4.5rem;
+    background-color: rgba(12, 160, 109, 0.13);
+    text-align: center;
+    font-size: 2rem;
+    box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.282);
+    border-radius: 1rem;
+}
+
+.profile-header {
+    position: relative;
+    height: 48px;
+}
+
+.profile-img {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    border: 3px solid rgba(17, 52, 57, 0.4);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px #012e2e86;
+}
+
+.profile-body {
+    padding: 10px 50px;
+}
+
+.name {
+    margin-top: 20px;
+    font-size: 2.9rem;
+    font-weight: bold;
+    color: #013434;
+}
+
+
+.mail {
+    font-size: 2.5rem;
+    color: #273234;
+}
+
+.job {
+    font-size: 2.2rem;
+    color: #33393a;
+    margin-top: 10px;
+
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 52%;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.8rem;
+    width: 2.8rem;
+    background-color: #25d8ab;
+    color: #ffffff;
+    font-size: 20px;
+    border-radius: 100%;
+    text-decoration: none;
+    margin: 0 13px 30px 0;
+}
+
+.social-icon:last-child {
+    margin-right: 0;
+}
+
+.social-icon:hover {
+    background-color: rgba(110, 220, 191, 0.13);
+}
+
+.facebook:hover {
+    color: #2b75e6;
+}
+
+.twitter:hover {
+    color: #00a2ff;
+}
+
+.tube:hover {
+    color: #ef3a3a;
+}
+
+.git:hover {
+    color: #222222;
+}
+
+.profile-footer {
+    background-color: #029cb8;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 20px 0 20px 0;
+}
+
+.count {
+    font-size: 14px;
+}
