@@ -24,6 +24,9 @@
     transform: translate(-50%, -50%);
     box-shadow: 0 0 20px #012e2e86;
 }
+.profile-img:hover{
+    filter: brightness(1.1);
+}
 
 .profile-body {
     padding: 10px 50px;

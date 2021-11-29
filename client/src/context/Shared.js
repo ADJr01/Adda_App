@@ -7,7 +7,6 @@ import chatICO from "../components/DashBoard/Assets/chat.png";
 import LogOut from "../components/DashBoard/Assets/logout.png";
 import useSocketRequest, {event_list} from "../Hooks/useSocketRequest";
 import {useFriendsHandler} from "../Hooks/dashHooks/useFriendsHandler";
-import {log} from "../Utils/Utility";
 
 const Shared = createContext({
     userdata: {},
@@ -99,7 +98,6 @@ export const SharedContext = ({children,}) => {
                 if (friendsHandler.friends && friendsHandler.friends.length > 0 && friendsHandler.allUser.length>0) {
                     updateFriendsViewBaseList(friendsHandler.allUser.filter(e => friendsHandler.friends.includes(e.email) && e));
                 } else {
-                    console.log('Shared js:101. generating empty array');
                     updateFriendsViewBaseList([]);
                 }
             } else {

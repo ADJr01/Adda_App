@@ -15,6 +15,9 @@ export const UserImgElem = styled.img`
   width: 100%;
   border-radius: 50%;
   border: 3px solid rgba(23, 23, 23, 0.4);
+  &:hover{
+    filter: brightness(1.1);
+  }
 `;
 
 export const UserPElem = styled.p`
