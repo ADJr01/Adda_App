@@ -1,5 +1,5 @@
 // ! @Route to /auth
-const {log} = require("../modules/Utility/Utility");
+const {log} = require("../modules/Utils/Utility");
 const {parseAuth} = require("../modules/Parser/Parser");
 const onSignUp = require("../../src/modules/Controller/AuthControllers/SignUpController");
 const onLogIn = require("../../src/modules/Controller/AuthControllers/LogInController");

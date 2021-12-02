@@ -4,7 +4,7 @@ import {Status, StatusSearch} from "./UI/StatusUI";
 import {H1} from "../Style/BasicUI";
 import Profile from "./Profile/Profile";
 import Friends from "./Friends/Friends";
-import Chats from "./Chats/Chats";
+import ChatInterface from "./Chats/Chats";
 import {ContentUI} from "./UI/ContentUI";
 
 let shared = null;
@@ -22,7 +22,7 @@ const Contents = _ => {
         shared.currentMenu === 1 ?
             (<><StatusComponent/> <Friends/></>) :
             shared.currentMenu === 2 ?
-                (<><StatusComponent/> <Chats/></>) : '';
+                (<><StatusComponent/> <ChatInterface/></>) : '';
     return (<ContentUI>
         {jsxMenu}
     </ContentUI>);

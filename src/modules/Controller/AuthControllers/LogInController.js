@@ -1,7 +1,7 @@
 'use strict'
 const User = require('../../../Models/User');
 const Credential = require('../../../Models/Credentials')
-const {Generator} = require('../../Utility/Generator')
+const {Generator} = require('../../Utils/Generator')
 
 const onLogIn = async params => {
     try {

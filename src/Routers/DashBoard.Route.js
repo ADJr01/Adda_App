@@ -1,5 +1,5 @@
 const express = require("express");
-const {isValidEmail} = require("../modules/Utility/Utility");
+const {isValidEmail} = require("../modules/Utils/Utility");
 const {friendRequest,getAllUser, acceptFriend} = require("../modules/Controller/DashControllers/AllUser");
 const event_list = require("../modules/Controller/SocketController/EventList");
 const dashBoardRouter = express.Router();

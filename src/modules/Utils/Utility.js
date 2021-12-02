@@ -12,6 +12,12 @@ const shuffle = arr =>{
     }
     return array;
 }
+const chatHash = (str1,str2)=>{
+    if(str1 === str2){
+        return false;
+    }
+    return `${str1}${str2}`.split('').sort().join('');
+}
 
 
-module.exports = {allInOneArray,isValidEmail,log,arrayBetween, shuffle}
+module.exports = {allInOneArray,isValidEmail,log,arrayBetween, shuffle,chatHash}

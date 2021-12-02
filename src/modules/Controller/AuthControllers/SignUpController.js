@@ -1,7 +1,7 @@
 'use strict'
 const User = require('../../../Models/User');
 const Credential = require('../../../Models/Credentials')
-const {Generator} = require('../../Utility/Generator')
+const {Generator} = require('../../Utils/Generator')
 const default_path = "E:\\Projects\\FULL_STACK\\ADDA\\adda_app\\src\\modules\\Controller\\AuthControllers\\Assets\\"
 const fs = require("fs");
 
