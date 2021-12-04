@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const ChatView = styled.div`
+export const ChatViewUI = styled.div`
   border: 1px solid transparent;
   width: 300px;
   height: 550px;
@@ -73,7 +73,7 @@ export const HeaderContentStatusLogo = styled.div`
   background: rgb(5, 238, 5);
   margin: 0.15rem;
 `;
-const ChatList = styled.div`
+export const ChatList = styled.div`
   background: #ddd;
   margin: 1px;
 `
@@ -96,7 +96,7 @@ const Chat = styled.div`
   }
 `;
 
-export const U1 = styled(Chat)`
+export const That = styled(Chat)`
   float: left;
   clear: both;
   border-top-left-radius: 0;
@@ -115,7 +115,7 @@ export const U1 = styled(Chat)`
   }
 `;
 
-export const U2 = styled(Chat)`
+export const This = styled(Chat)`
   float: right;
   clear: both;
   border-top-right-radius: 0;

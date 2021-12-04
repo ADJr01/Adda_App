@@ -12,6 +12,17 @@ const requestChatData = async between => {
             }
         } else {
             const chatArr = parsed.chats;
+            const total = chatArr.length - 1;
+            for (let i = total; i >= 0; i--) {
+                if (chatArr[i].sent_for === between.sender && chatArr[i].isSent === false) {
+                    chatArr[i].isSent = true;
+
+                } else {
+                    i < total && await parsed.save();
+                    break;
+                }
+            }
+
             return {
                 hasChat: true,
                 data: chatArr
@@ -36,20 +47,22 @@ const getUnReceived = async between => {
         const list = [];
         const chatArr = parsed.chats;
         const total = chatArr.length - 1;
-        for (let i = total; i >=0; i--) {
-            if(chatArr[i].isSent===false){
-                // * on Return it must be validated to isSent=true
+        for (let i = total; i >= 0; i--) {
+            if (chatArr[i].sent_for === between.sender && chatArr[i].isSent === false) {
                 list.unshift(chatArr[i]);
-            }else{
-               return {
-                   hasUnRecevied: list.length>0,
-                   data: list,
-               }
+                chatArr[i].isSent = true;
+
+            } else {
+                i < total && await parsed.save();
+                return {
+                    hasUnRecevied: list.length > 0,
+                    data: list,
+                }
             }
         }
 
 
-    }else{
+    } else {
         console.log(between);
         return {
             hasUnRecevied: false,
@@ -59,38 +72,38 @@ const getUnReceived = async between => {
 
 }
 
-const persistChat = async (between,content,isSent)=>{
-    if(between.hasOwnProperty('sender') && between.hasOwnProperty('receiver')){
-        const chat_id = chatHash(between.sender,between.receiver);// ? creating hash for particular char couple
+const persistChat = async (between, content, isSent) => {
+    if (between.hasOwnProperty('sender') && between.hasOwnProperty('receiver')) {
+        const chat_id = chatHash(between.sender, between.receiver);// ? creating hash for particular char couple
         const chat_list_based_on_id = await Chat.findOne({chatID: chat_id});
-        if(chat_list_based_on_id!==null){
+        if (chat_list_based_on_id !== null) {
             const chat_array = chat_list_based_on_id.chats;
             chat_array.push({
                 sent_for: between.receiver,
                 sent_by: between.sender,
-                content:content,
+                content: content,
                 isSent: isSent
             });
             await chat_list_based_on_id.save();
             return true;
-        }else{
+        } else {
             await Chat.create({
                 chatID: chat_id,
-                chats : [
+                chats: [
                     {
-                        sent_for : between.receiver,
-                        sent_by :  between.sender,
-                        content : content,
+                        sent_for: between.receiver,
+                        sent_by: between.sender,
+                        content: content,
                         isSent: isSent
                     }
                 ]
 
             });
-            return  true;
+            return true;
         }
-    }else {
+    } else {
         throw new Error('Invalid coupled data');
     }
 }
 
-module.exports = {requestChatData,getUnReceived,persistChat}
+module.exports = {requestChatData, getUnReceived, persistChat}

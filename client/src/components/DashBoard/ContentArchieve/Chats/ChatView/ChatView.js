@@ -1,12 +1,15 @@
-import {ChatWindow} from "./UI/ChatUI";
+import {ChatWindow,ChatViewUI} from "./UI/ChatUI";
+import  {ChatContext} from "../../../../../context/ChatPIPE";
 
 const ChatView = _=>{
 
-    return <ChatView>
-        <ChatWindow>
+    return <ChatContext>
+        <ChatViewUI>
+            <ChatWindow>
 
-        </ChatWindow>
-    </ChatView>
+            </ChatWindow>
+        </ChatViewUI>
+    </ChatContext>
 }
 
 export default ChatView;

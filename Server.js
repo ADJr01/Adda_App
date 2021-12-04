@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const {auth_Router, setAuthNotifier} = require('./src/Routers/Auth.Route');
 const {dashBoardRouter, setDashNotifier} = require('./src/Routers/DashBoard.Route');
+const {chatRouter,setChatNotifier} = require('./src/Routers/Chat.Route')
 const app = express();
 const expressServer = require('http').createServer(app);
 const {Server} = require('socket.io');
@@ -45,8 +46,9 @@ Io.on('connection', socket => {
             return true
         }
         if (body.hasOwnProperty('for') && Object.keys(event_list).includes(onEvent)) {
-            sessionAdapter.getUserSessions(body.for).forEach(e => Io.to(e).emit(onEvent, body));
-            return true;
+            const user_session = sessionAdapter.getUserSessions(body.for);
+            user_session.forEach(e => Io.to(e).emit(onEvent, body));
+            return user_session.length>0;
         } else {
             console.log(`Has For ${body.hasOwnProperty('for')}`);
             console.log(Object.keys(event_list), onEvent);
@@ -56,20 +58,21 @@ Io.on('connection', socket => {
 
     }
 
+
     socket.on('online', data => {
         console.log(`User Online: ${data.uID} session: ${socket.id}`);
         sessionAdapter.newSession(data.uID, socket.id);
 
     });
 
-
     setAuthNotifier(_ => notify);
     setDashNotifier(_ => notify);
+    setChatNotifier(_=>notify);
 
     // ? Mounting Routers to Routes
     app.use('/auth', auth_Router);
     app.use('/dashboard', dashBoardRouter);
-
+    //app.use('/chat',chatRouter);
 
     socket.on('offline', _ => {
         sessionAdapter.removeSession(socket.id) && console.log(`User  offline session: ${socket.id}`);
@@ -82,6 +85,9 @@ Io.on('connection', socket => {
     });
 });
 
+/* ! test
+app.use('/chat',chatRouter);
+*/
 
 // * Mounting The Server to Serve
 expressServer.listen(process.env.PORT, _ => {

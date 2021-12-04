@@ -7,6 +7,7 @@ export const event_list = {
     newFriend: "newFriend",
     newRequest: "newRequest",
     newUser: "newUser",
+    chat:   "chat"
 }
 
 

@@ -1,8 +1,8 @@
 const express = require("express");
+const dashBoardRouter = express.Router();
 const {isValidEmail} = require("../modules/Utils/Utility");
 const {friendRequest,getAllUser, acceptFriend} = require("../modules/Controller/DashControllers/AllUser");
 const event_list = require("../modules/Controller/SocketController/EventList");
-const dashBoardRouter = express.Router();
 let notifier = null;
 const setDashNotifier = func=>{
     notifier = func();
