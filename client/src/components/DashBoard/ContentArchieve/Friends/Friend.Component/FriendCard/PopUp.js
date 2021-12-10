@@ -3,10 +3,10 @@ import Shared from "../../../../../../context/Shared";
 import {createPortal} from "react-dom";
 import styled from "../../../../../Auth/REGISTRATION/style/style.module.css";
 import ChatPipe from "../../../../../../context/ChatPIPE";
-import ChatView from "../ChatView";
+import ChatView from "../../../Chats/ChatView/ChatView";
 import CloseIco from "../../../UI/CloseIco";
 
-const PopUpChat = ({details,onClose}) => {
+const PopUpChat = ({onClose}) => {
     const shared = useContext(Shared);
     const pipe = useContext(ChatPipe);
 
@@ -24,7 +24,7 @@ const PopUpChat = ({details,onClose}) => {
                             <span onClick={onClose}>
                             <CloseIco/>
                         </span>
-                            <ChatView name={details.name} image={details.image} itype={details.itype} active={pipe.isActive}/>
+                            <ChatView  active={pipe.isActive}/>
                         </div>
                 </div>
 

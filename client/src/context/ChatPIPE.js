@@ -2,6 +2,7 @@ import {createContext, useEffect, useState} from "react";
 import {simpleSTORAGE} from "../Utils/SimpleStorage";
 import {getPrevious, getUnReceived, sendMessage} from "./context-helper/ChatHelper/ChatHelper";
 import {log} from "../Utils/Utility";
+import {decodeFromVersed, encodetoVersed} from "../Utils/Crypter";
 
 const chatHash = (str1, str2) => `${str1}${str2}`.split('').sort().join('');
 
@@ -12,9 +13,11 @@ const ChatPipe = createContext({
     between: {},
     updateCouple: null,
     sendChat: null,
+    chatText : '',
     setChatText: '',
     incoming: null,
-    isActive: false
+    isActive: false,
+    flush: null
 
 
 });
@@ -74,10 +77,13 @@ export const ChatContext = props => {
     const send = async _ => {
         if (user.ou.length > 1 && user.tu.length > 1 && chatContent.length > 0) {
             try {
-                const state = await sendMessage(user.tu, user.ou, chatContent);
+                const text = chatContent;
+                updateChatContent('');
+                const state = await sendMessage(user.tu, user.ou, encodetoVersed(text));
                 const prev = store.getItem(coupleHash, false);
                 const data = {sent_for: user.ou, sent_by: user.tu, content: chatContent};
-                state.success && store.useItem(coupleHash, ((prev && [...prev, data]) || [data]))
+                state.success && store.useItem(coupleHash, ((prev && [...prev, data]) || [data]));
+                state.success && setActiveChatPipe(store.getItem(coupleHash,false))
                 return true;
             } catch (e) {
                 console.log(e.message)
@@ -90,10 +96,16 @@ export const ChatContext = props => {
 
     const onNewIncomingText = data => {
         const hash = chatHash(data.sent_by, data.sent_for)
+        data.content = decodeFromVersed(data.content);
         const prev = store.getItem(hash);
         !prev ? store.useItem(hash, [data]) : store.useItem(hash, [...prev, data]);
-        (coupleHash === hash) && setActiveChatPipe(store.getItem(hash));
+        (coupleHash === hash) && setActiveChatPipe(store.getItem(hash,false));
 
+    }
+
+    const flushChats = ()=>{
+        store.deleteDB();
+        store._init_();
     }
 
 
@@ -103,9 +115,11 @@ export const ChatContext = props => {
             between: user,
             sendChat: send,
             incoming: onNewIncomingText,
+            chatText: chatContent,
             isActive: false,
             ActiveChat: activeChatPipe,
             setChatText: updateChatContent,
+            flush: flushChats
         }
         }
     >

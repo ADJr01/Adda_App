@@ -7,8 +7,12 @@ import {
     HeaderContentStatusLogo,
     HeaderContentStatusText
 } from "../UI/ChatUI";
+import {useContext} from "react";
+import Shared from "../../../../../../context/Shared";
 
-const Header = ({image, itype, name, isActive}) => {
+const Header = () => {
+    const shared = useContext(Shared);
+    const {image, itype, name, isActive} = shared.recipientDetails;
     return <ChatHeader>
         <ChatImg src={`data:image/${itype};base64,${image}`}  alt={name}/>
         <ChatHeaderContents>
@@ -16,7 +20,7 @@ const Header = ({image, itype, name, isActive}) => {
                 {name}
             </ChatHeaderContentsUser>
             <HeaderContentStatus>
-                <HeaderContentStatusLogo style={{background:'#F44336'}}/>
+                <HeaderContentStatusLogo style={{background: !isActive && '#F44336'}}/>
                 <HeaderContentStatusText>{isActive ? 'Active Now' : 'Not Active'}</HeaderContentStatusText>
             </HeaderContentStatus>
         </ChatHeaderContents>

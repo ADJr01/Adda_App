@@ -20,6 +20,9 @@ const Shared = createContext({
     friendsViewData: [],
     sendFriendRequest: null,
     recipient: '',
+    recipientDetails:{},
+    updateRecipientDetails:null,
+    updateUserDate:{},
     chatMode:false,
     setRecipient: null
 });
@@ -32,12 +35,14 @@ const nav_option = [
 
 export const SharedContext = ({children,}) => {
     const [chatWith, setChatWith] = useState('');
+    const [chatWithData,setChatWithData] = useState({});
     const [inChatMode, setInChatMode] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState(0);
     const [selectedMenuName, setSelectedMenuName] = useState('Profile');
     const [friendsView, updateFriendsView] = useState('Friends');
     const friendsHandler = useFriendsHandler();
     const [friendsViewBaseList, updateFriendsViewBaseList] = useState([]);
+
     const socket = useSocketRequest({
         onRequestApproval: (data, cu) => friendsHandler.onRequestApproval(data, cu),
         onNewUserRegistration: d => friendsHandler.onNewUserRegistration(d),
@@ -89,6 +94,7 @@ export const SharedContext = ({children,}) => {
             // ! handling Log-Out Events if selected menu is 3
             if (selectedMenu === 3) {
                 friendsHandler.flushFriendsData();
+                chatContext.flush();
                 socket.setCurrentEvent(event_list.offline);
                 socket.sent();
                 setSelectedMenu(0);
@@ -126,6 +132,8 @@ export const SharedContext = ({children,}) => {
             MenuName: selectedMenuName,
             recipient: chatWith,
             chatMode: inChatMode,
+            recipientDetails:chatWithData,
+            updateRecipientDetails:setChatWithData,
             setRecipient: setChatWith,
             navs: nav_option,
             updateMenu: setSelectedMenu,

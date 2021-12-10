@@ -41,7 +41,7 @@ export const ChatImg = styled.img`
 `;
 
 export const ChatHeaderContents = styled.div`
-  margin-top: 0.3rem;
+  margin-top: 0;
   margin-left: 0.5rem;
   display: flex;
   flex-flow: column wrap;
@@ -70,7 +70,7 @@ export const HeaderContentStatusLogo = styled.div`
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 50%;
-  background: rgb(5, 238, 5);
+  background: rgb(17, 255, 0);
   margin: 0.15rem;
 `;
 export const ChatList = styled.div`

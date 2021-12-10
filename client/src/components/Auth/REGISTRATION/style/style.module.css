@@ -222,13 +222,13 @@ select {
     width: 1.5rem;
     height: 1.5rem;
     padding: 1px;
-    background: rgba(77, 92, 95, 0.2);
+    background: rgba(77, 92, 95, 0.1);
     border-radius: 50%;
     color: white;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
 }
 .popChat span:hover{
     background: rgba(77, 92, 95, 0.8);
-    color: rgba(250, 133, 163, 0.78);
+    color: rgba(42, 32, 36, 0.78);
     transform: rotate(90deg);
 }

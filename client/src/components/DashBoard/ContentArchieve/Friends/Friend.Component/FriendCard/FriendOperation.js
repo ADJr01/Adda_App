@@ -1,7 +1,7 @@
 import {useContext} from "react";
 import Shared from "../../../../../../context/Shared";
 import {FriendBTN, FriendOperate} from "../../../UI/CardUI";
-import PopUpChat from "../../../Chats/ChatView/ChatComponents/ChatPopUp";
+import PopUpChat from "./ChatPopUp";
 
 
 
@@ -9,16 +9,16 @@ const FriendOperation = ({name,email,image,itype}) => {
     const shared = useContext(Shared);
     const Sent = shared.userdata.sent.includes(email);
     const Received = shared.userdata.request.includes(email)
-    const details = {
-        name,email,image,itype
-    }
+
 
     const onChatClick = ()=> {
         shared.setRecipient(email);
+        shared.updateRecipientDetails({name,email,image,itype})
     }
 
     const onCloseClick = ()=>{
         shared.setRecipient('');
+        shared.updateRecipientDetails({});
     }
 
     return shared.currentFriendsView === 'Friends' ? (
@@ -26,7 +26,7 @@ const FriendOperation = ({name,email,image,itype}) => {
                 <FriendBTN>View Profile</FriendBTN>
                 <FriendBTN onClick={onChatClick}>Chat</FriendBTN>
                 {/*if chat button clicked*/}
-                    <PopUpChat details={details} onClose={onCloseClick}/>
+                    <PopUpChat  onClose={onCloseClick}/>
             </FriendOperate>)
         :
         (<FriendOperate>
