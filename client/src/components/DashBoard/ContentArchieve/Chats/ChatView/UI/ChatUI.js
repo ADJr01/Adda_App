@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const ChatViewUI = styled.div`
   border: 1px solid transparent;
-  width: 300px;
+  width: 80%;
   height: 550px;
   margin: auto;
   padding: 20px;
@@ -15,7 +15,7 @@ export const ChatWindow = styled.div`
   border-radius: 18px;
   background: #fff;
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100% - 20px);
   margin: auto;
   padding: 10px;
   box-sizing: border-box;
@@ -23,7 +23,7 @@ export const ChatWindow = styled.div`
   overflow: hidden;
 `;
 export const ChatHeader = styled.div`
-  background: #ededed;
+  background: #78f3ae;
   padding: 0.7rem;
   margin: -10px -10px 5% -10px;
   text-align: left;
@@ -59,7 +59,7 @@ export const HeaderContentStatus = styled.div`
   padding: 1px;
 `;
 
-export const  HeaderContentStatusText = styled.h6`
+export const HeaderContentStatusText = styled.h6`
   margin: 0;
   padding: 0;
   opacity: 0.8;
@@ -78,7 +78,7 @@ export const ChatList = styled.div`
   margin: 1px;
 `
 
-const Chat = styled.div`
+const Chat = styled.span`
   background: #72b8ff;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
@@ -96,7 +96,7 @@ const Chat = styled.div`
   }
 `;
 
-export const That = styled(Chat)`
+export const YourFriend = styled(Chat)`
   float: left;
   clear: both;
   border-top-left-radius: 0;
@@ -115,7 +115,7 @@ export const That = styled(Chat)`
   }
 `;
 
-export const This = styled(Chat)`
+export const You = styled(Chat)`
   float: right;
   clear: both;
   border-top-right-radius: 0;
@@ -139,31 +139,35 @@ export const InputContainer = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  background: #ededed;
-  height: 40px;
+  height: 10%;
+  background: rgba(139, 189, 213, 0.22);
   left: 0;
-  border-top: 1px solid #ddd;
+  border-top: 2px solid transparent;
+  display: flex;
+  flex-flow: row nowrap;
 `;
 
 export const TextInput = styled.input`
+  flex: 4 0 auto;
   outline: none;
   padding: 10px;
   box-sizing: border-box;
   font-size: 18px;
-  width: 250px;
-  height: 40px;
+  width: 78%;
+  height: 100%;
   display: inline-block;
   color: #1d1b1b;
   font-weight: 100;
-  background: #ddd;
+  background: transparent;
   border-top-right-radius: 20px;
   border: 1px solid #2222;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 export const ChatSent = styled.button`
+  flex: 2 1 0;
   width: 40px;
-  height: 30px;
-  padding: 0;
+  height: 100%;
+  padding: 4px;
   display: inline-block;
   border: none;
   color: #00d025;
@@ -173,13 +177,13 @@ export const ChatSent = styled.button`
   outline: none;
   cursor: pointer;
   transition: 0.3s;
-  
-  &:hover{
-    background: #00d025;
-    color: white;
-    border-bottom-right-radius: 10px;
+  transform: rotate(88deg);
+
+  &:hover {
+    color: #00ffbf;
   }
-  &:active{
+
+  &:active {
     color: #00cf8a;
     background: white;
   }

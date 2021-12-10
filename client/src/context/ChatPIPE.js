@@ -1,6 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import {simpleSTORAGE} from "../Utils/SimpleStorage";
 import {getPrevious, getUnReceived, sendMessage} from "./context-helper/ChatHelper/ChatHelper";
+import {log} from "../Utils/Utility";
 
 const chatHash = (str1, str2) => `${str1}${str2}`.split('').sort().join('');
 
@@ -8,10 +9,12 @@ const store_name = '_coupled';
 const store = simpleSTORAGE(store_name);
 const ChatPipe = createContext({
     ActiveChat: [],
+    between: {},
     updateCouple: null,
     sendChat: null,
     setChatText: '',
-    incoming: null
+    incoming: null,
+    isActive: false
 
 
 });
@@ -24,13 +27,18 @@ export const ChatContext = props => {
 
 
     const coupleUpdate = (user, to) => {
-        setUser({tu: user, ou: to})
+        (user.length > 2 && to.length > 2) && setUser({tu: user, ou: to})
     }
 
     // * creating hash to persist
     useEffect(_ => {
-        (user.ou.length > 1 && user.tu.length > 1) && setCoupleHash(chatHash(user.tu, user.ou))
-    }, [user]);
+        if((user.ou.length > 1 && user.tu.length > 1)){
+           coupleHash.length<1 && setCoupleHash(chatHash(user.tu, user.ou))
+        }else{
+            (coupleHash.length > 0 && setCoupleHash(''))
+        }
+
+    }, [coupleHash,coupleHash.length, user]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(async _ => {
         // * Check if simple storage have chat list.
@@ -39,27 +47,42 @@ export const ChatContext = props => {
         // * if server doesn't have data then simply show empty chat
         // * if local storage have data then ask server if we have any unreceived chat
         // * if we have any unreceived chat then get it or show existing chat array
-        let chatArray = store.getItem(coupleHash);
-        if (!chatArray) {
-            chatArray = await getPrevious(user.tu, user.ou);
-            setActiveChatPipe(chatArray);
-        } else {
-            const unreceived = await getUnReceived(user.tu, user.ou);
-            if (unreceived.length > 0) {
-                chatArray = [...chatArray, ...unreceived];
-                setActiveChatPipe(chatArray);
+        if (coupleHash.length > 2 && user.tu.length>2 && user.ou.length>2) {
+            let chatArray = store.getItem(coupleHash,false);
+            if (!chatArray) {
+                try {
+                    chatArray = await getPrevious(user.tu, user.ou);
+                    chatArray.length>0 && setActiveChatPipe(chatArray);
+                    chatArray.length>0 && store.useItem(coupleHash, chatArray);
+                } catch (e) {
+                    console.log(user)
+                    log(`Error on Chat PIPE getPrevious for hash ${coupleHash}`)
+                    console.log(e.message)
+                }
+            } else {
+                const unreceived = await getUnReceived(user.tu, user.ou);
+                if (unreceived && unreceived.length > 0) {
+                    chatArray = [...chatArray, ...unreceived];
+                    setActiveChatPipe(chatArray);
+                    store.useItem(coupleHash, chatArray);
+                }
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [coupleHash])
+        
+    }, [coupleHash, user])
 
     const send = async _ => {
         if (user.ou.length > 1 && user.tu.length > 1 && chatContent.length > 0) {
-            const state = await sendMessage(user.tu, user.ou, chatContent);
-            const prev = store.getItem(coupleHash, false);
-            const data = {sent_for: user.ou, sent_by: user.tu, content: chatContent};
-            state.success && store.useItem(coupleHash, ((prev && [...prev, data]) || [data]))
-            return true;
+            try {
+                const state = await sendMessage(user.tu, user.ou, chatContent);
+                const prev = store.getItem(coupleHash, false);
+                const data = {sent_for: user.ou, sent_by: user.tu, content: chatContent};
+                state.success && store.useItem(coupleHash, ((prev && [...prev, data]) || [data]))
+                return true;
+            } catch (e) {
+                console.log(e.message)
+                return false
+            }
         } else {
             console.log('Not Valid Operation');
         }
@@ -77,8 +100,10 @@ export const ChatContext = props => {
     return <ChatPipe.Provider
         value={{
             updateCouple: coupleUpdate,
+            between: user,
             sendChat: send,
             incoming: onNewIncomingText,
+            isActive: false,
             ActiveChat: activeChatPipe,
             setChatText: updateChatContent,
         }

@@ -1,6 +1,6 @@
+const ChatInterface = props => {
 
-
-const ChatInterface = props => {}
+}
 
 export default ChatInterface;
 

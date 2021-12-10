@@ -9,12 +9,12 @@ const FriendContainer = _ => {
 
     return <CardsUI>
         {shared.friendsViewData.length > 0 &&
-        shared.friendsViewData.map((e, i) =>
-            <FriendCard key={i}
-                        name={`${e.fname} ${e.lname}`}
-                        email={e.email} img={e.display.img}
-                        itype={e.display.format}/>
-        )}
+            shared.friendsViewData.map((e, i) =>
+                <FriendCard key={i}
+                            name={`${e.fname} ${e.lname}`}
+                            email={e.email} img={e.display.img}
+                            itype={e.display.format}/>
+            )}
         {shared.friendsViewData.length < 1 && <H3>No Data</H3>}
     </CardsUI>
 }

@@ -3,11 +3,11 @@ import {H2, P} from "../../../../Style/BasicUI";
 import FriendOperation from "./FriendOperation";
 
 
-const FriendInfo = ({name, email}) => {
+const FriendInfo = ({name, email,image,itype}) => {
     return <CardInfoContent>
         <H2>{name}</H2>
         <P>{email}</P>
-        <FriendOperation email={email}/>
+        <FriendOperation name={name} email={email} image={image} type={itype}/>
     </CardInfoContent>
 }
 
@@ -25,7 +25,7 @@ const FriendCard = ({img, itype, name, email}) => {
     return (
         <Card>
             <FriendImg type={itype} img={img}/>
-            <FriendInfo name={name} email={email}/>
+            <FriendInfo name={name} email={email} image={img} type={itype}/>
         </Card>
     )
 

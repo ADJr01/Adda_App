@@ -4,7 +4,7 @@ import {Status, StatusSearch} from "./UI/StatusUI";
 import {H1} from "../Style/BasicUI";
 import Profile from "./Profile/Profile";
 import Friends from "./Friends/Friends";
-import ChatInterface from "./Chats/Chats";
+import ChatInterface from "./Chats/ChatInterface";
 import {ContentUI} from "./UI/ContentUI";
 
 let shared = null;

@@ -1,10 +1,12 @@
 import {ChatSent, InputContainer, TextInput} from "../UI/ChatUI";
-
- const Footer = _=>{
+import RightArrow from "../../../../../Ico/RightArrow";
+const Footer = _ => {
 
     return <InputContainer>
-        <TextInput type='text' />
-        <ChatSent>Send</ChatSent>
+        <TextInput type='text'/>
+        <ChatSent>
+            <RightArrow/>
+        </ChatSent>
     </InputContainer>
 }
 

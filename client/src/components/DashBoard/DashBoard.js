@@ -3,23 +3,26 @@ import {ProfileContainerUI} from "./Style/ProfileContainerUI";
 import Navigation from "./Navigation/Navigation";
 import {SharedContext} from "../../context/Shared";
 import Contents from "./ContentArchieve/Contents";
+import {ChatContext} from "../../context/ChatPIPE";
 
 const DashBoard = _ => {
 
 
     return (
-        <SharedContext>
-            <DashMainUI>
-                <ProfileContainerUI>
-                    {/* MAIN CONTENTS START */}
+            <ChatContext>
+                <SharedContext>
+                    <DashMainUI>
+                        <ProfileContainerUI>
+                            {/* MAIN CONTENTS START */}
 
-                    <Navigation/>
-                    <Contents/>
+                            <Navigation/>
+                            <Contents/>
 
-                    {/* MAIN CONTENTS END */}
-                </ProfileContainerUI>
-            </DashMainUI>
-        </SharedContext>
+                            {/* MAIN CONTENTS END */}
+                        </ProfileContainerUI>
+                    </DashMainUI>
+                </SharedContext>
+            </ChatContext>
     )
 }
 export default DashBoard;

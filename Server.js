@@ -72,7 +72,7 @@ Io.on('connection', socket => {
     // ? Mounting Routers to Routes
     app.use('/auth', auth_Router);
     app.use('/dashboard', dashBoardRouter);
-    //app.use('/chat',chatRouter);
+    app.use('/chat',chatRouter);
 
     socket.on('offline', _ => {
         sessionAdapter.removeSession(socket.id) && console.log(`User  offline session: ${socket.id}`);

@@ -196,3 +196,39 @@ select {
         width: 100%;
     }
 }
+
+.ChatContainer{
+    width: clamp(719px, 620px, 520px);
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    margin: 2rem auto;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    background: rgba(190, 190, 191, 0.17);
+    animation: pop_from_Up 0.3s ease-in;
+    padding: 1rem;
+}
+
+
+.popChat{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+}
+.popChat span{
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 1px;
+    background: rgba(77, 92, 95, 0.2);
+    border-radius: 50%;
+    color: white;
+    transition: 0.3s;
+}
+.popChat span:hover{
+    background: rgba(77, 92, 95, 0.8);
+    color: rgba(250, 133, 163, 0.78);
+    transform: rotate(90deg);
+}

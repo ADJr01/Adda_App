@@ -1,15 +1,32 @@
 import {useContext} from "react";
 import Shared from "../../../../../../context/Shared";
 import {FriendBTN, FriendOperate} from "../../../UI/CardUI";
+import PopUpChat from "../../../Chats/ChatView/ChatComponents/ChatPopUp";
 
-const FriendOperation = ({email}) => {
+
+
+const FriendOperation = ({name,email,image,itype}) => {
     const shared = useContext(Shared);
     const Sent = shared.userdata.sent.includes(email);
     const Received = shared.userdata.request.includes(email)
+    const details = {
+        name,email,image,itype
+    }
+
+    const onChatClick = ()=> {
+        shared.setRecipient(email);
+    }
+
+    const onCloseClick = ()=>{
+        shared.setRecipient('');
+    }
+
     return shared.currentFriendsView === 'Friends' ? (
             <FriendOperate>
                 <FriendBTN>View Profile</FriendBTN>
-                <FriendBTN>Chat</FriendBTN>
+                <FriendBTN onClick={onChatClick}>Chat</FriendBTN>
+                {/*if chat button clicked*/}
+                    <PopUpChat details={details} onClose={onCloseClick}/>
             </FriendOperate>)
         :
         (<FriendOperate>

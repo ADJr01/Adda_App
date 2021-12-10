@@ -7,6 +7,7 @@ import chatICO from "../components/DashBoard/Assets/chat.png";
 import LogOut from "../components/DashBoard/Assets/logout.png";
 import useSocketRequest, {event_list} from "../Hooks/useSocketRequest";
 import {useFriendsHandler} from "../Hooks/dashHooks/useFriendsHandler";
+import {ChatContext} from "./ChatPIPE";
 
 const Shared = createContext({
     userdata: {},
@@ -17,7 +18,10 @@ const Shared = createContext({
     currentFriendsView: '',
     changeFriendsView: '',
     friendsViewData: [],
-    sendFriendRequest: null
+    sendFriendRequest: null,
+    recipient: '',
+    chatMode:false,
+    setRecipient: null
 });
 const nav_option = [
     {title: 'Profile', ico: profileICO},
@@ -27,6 +31,8 @@ const nav_option = [
 ];
 
 export const SharedContext = ({children,}) => {
+    const [chatWith, setChatWith] = useState('');
+    const [inChatMode, setInChatMode] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState(0);
     const [selectedMenuName, setSelectedMenuName] = useState('Profile');
     const [friendsView, updateFriendsView] = useState('Friends');
@@ -37,8 +43,14 @@ export const SharedContext = ({children,}) => {
         onNewUserRegistration: d => friendsHandler.onNewUserRegistration(d),
         onNewReceievedRequest: (data, cu) => friendsHandler.onNewReceievedRequest(data, cu)
     });
+    const chatContext = useContext(ChatContext);
     const authorized = useContext(Authorizer);
     const user_email = authorized.contextStorage().getItem('email');
+
+    // ? effect to update on chat recipient change
+    useEffect(_ => {
+         setInChatMode(chatWith.length > 2);
+    }, [chatWith])
 
 
     // ? On LOGIN Save user data and send notification to server that this user is online
@@ -95,7 +107,7 @@ export const SharedContext = ({children,}) => {
     useEffect(_ => {
         if (selectedMenu === 1) {
             if (friendsView === 'Friends') {
-                if (friendsHandler.friends && friendsHandler.friends.length > 0 && friendsHandler.allUser.length>0) {
+                if (friendsHandler.friends && friendsHandler.friends.length > 0 && friendsHandler.allUser.length > 0) {
                     updateFriendsViewBaseList(friendsHandler.allUser.filter(e => friendsHandler.friends.includes(e.email) && e));
                 } else {
                     updateFriendsViewBaseList([]);
@@ -112,6 +124,9 @@ export const SharedContext = ({children,}) => {
             userdata: Info,
             currentMenu: selectedMenu,
             MenuName: selectedMenuName,
+            recipient: chatWith,
+            chatMode: inChatMode,
+            setRecipient: setChatWith,
             navs: nav_option,
             updateMenu: setSelectedMenu,
             currentFriendsView: friendsView,
@@ -129,7 +144,6 @@ export const SharedContext = ({children,}) => {
 }
 
 export default Shared;
-
 
 
 /*

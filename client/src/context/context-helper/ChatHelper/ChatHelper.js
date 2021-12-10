@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const uri = {
-    previous: 'http://localhost:8080/a/dashboard/previous',
-    unreceived: 'http://localhost:8080/a/dashboard/unreceived',
-    send: 'http://localhost:8080/a/dashboard/send',
+    previous: 'http://localhost:8080/chat/previous',
+    unreceived: 'http://localhost:8080/chat/unreceived',
+    send: 'http://localhost:8080/chat/send',
 }
 
 //? previous
