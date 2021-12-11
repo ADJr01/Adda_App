@@ -11,7 +11,7 @@ const PopUpChat = ({onClose}) => {
     const pipe = useContext(ChatPipe);
 
     useEffect(() => {
-        shared.chatMode && pipe.updateCouple(shared.userdata.email,shared.recipient);
+        shared.chatMode ? pipe.updateCouple(shared.userdata.email,shared.recipient) : pipe.updateCouple('','')
     }, [shared.chatMode]);
 
 
@@ -31,7 +31,6 @@ const PopUpChat = ({onClose}) => {
             </>
             , document.getElementById('portal'));
     }else {
-        pipe.updateCouple('','');
         return '';
     }
 }

@@ -40,7 +40,6 @@ Io.on('connection', socket => {
     // ? Do All sorts of Operation on distinct User just by emitting event find distinct user through + socket client array
     // * Event Emitting CheatSheet:   https://socket.io/docs/v3/emit-cheatsheet/
     const notify = (onEvent, body, global = false) => {
-        console.log('notifying');
         if (global) {
             socket.broadcast.emit(onEvent, body);
             return true

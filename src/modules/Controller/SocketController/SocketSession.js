@@ -85,7 +85,7 @@ const socketSessions = ()=>{
 
     // ? implement is user online
     const isUserAvailable = uid=>{
-        return indexOfId(uid);
+        return indexOfId(uid)!==-1;
     }
     // ? implement user session;
     const getUserSessions = uid=>{

@@ -7,7 +7,7 @@ import chatICO from "../components/DashBoard/Assets/chat.png";
 import LogOut from "../components/DashBoard/Assets/logout.png";
 import useSocketRequest, {event_list} from "../Hooks/useSocketRequest";
 import {useFriendsHandler} from "../Hooks/dashHooks/useFriendsHandler";
-import {ChatContext} from "./ChatPIPE";
+import ChatPipe from "./ChatPIPE";
 
 const Shared = createContext({
     userdata: {},
@@ -20,10 +20,10 @@ const Shared = createContext({
     friendsViewData: [],
     sendFriendRequest: null,
     recipient: '',
-    recipientDetails:{},
-    updateRecipientDetails:null,
-    updateUserDate:{},
-    chatMode:false,
+    recipientDetails: {},
+    updateRecipientDetails: null,
+    updateUserDate: {},
+    chatMode: false,
     setRecipient: null
 });
 const nav_option = [
@@ -35,26 +35,27 @@ const nav_option = [
 
 export const SharedContext = ({children,}) => {
     const [chatWith, setChatWith] = useState('');
-    const [chatWithData,setChatWithData] = useState({});
+    const [chatWithData, setChatWithData] = useState({});
     const [inChatMode, setInChatMode] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState(0);
     const [selectedMenuName, setSelectedMenuName] = useState('Profile');
     const [friendsView, updateFriendsView] = useState('Friends');
     const friendsHandler = useFriendsHandler();
     const [friendsViewBaseList, updateFriendsViewBaseList] = useState([]);
-
+    const chatContext = useContext(ChatPipe);
     const socket = useSocketRequest({
         onRequestApproval: (data, cu) => friendsHandler.onRequestApproval(data, cu),
         onNewUserRegistration: d => friendsHandler.onNewUserRegistration(d),
-        onNewReceievedRequest: (data, cu) => friendsHandler.onNewReceievedRequest(data, cu)
+        onNewReceievedRequest: (data, cu) => friendsHandler.onNewReceievedRequest(data, cu),
+        onNewChat: data => chatContext.incoming(data)
     });
-    const chatContext = useContext(ChatContext);
+
     const authorized = useContext(Authorizer);
     const user_email = authorized.contextStorage().getItem('email');
 
     // ? effect to update on chat recipient change
     useEffect(_ => {
-         setInChatMode(chatWith.length > 2);
+        setInChatMode(chatWith.length > 2);
     }, [chatWith])
 
 
@@ -132,8 +133,8 @@ export const SharedContext = ({children,}) => {
             MenuName: selectedMenuName,
             recipient: chatWith,
             chatMode: inChatMode,
-            recipientDetails:chatWithData,
-            updateRecipientDetails:setChatWithData,
+            recipientDetails: chatWithData,
+            updateRecipientDetails: setChatWithData,
             setRecipient: setChatWith,
             navs: nav_option,
             updateMenu: setSelectedMenu,

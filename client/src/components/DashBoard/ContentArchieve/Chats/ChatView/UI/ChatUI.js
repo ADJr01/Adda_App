@@ -11,7 +11,7 @@ export const ChatViewUI = styled.div`
 `;
 
 export const ChatWindow = styled.div`
-  border: 1px solid #222;
+  border: 1px solid rgba(34, 34, 34, 0.4);
   border-radius: 18px;
   background: #fff;
   width: 100%;
@@ -23,7 +23,7 @@ export const ChatWindow = styled.div`
   overflow: hidden;
 `;
 export const ChatHeader = styled.div`
-  background: #78f3ae;
+  background: #2c3939;
   padding: 0.7rem;
   margin: -10px -10px 5% -10px;
   text-align: left;
@@ -49,6 +49,9 @@ export const ChatHeaderContents = styled.div`
 
 export const ChatHeaderContentsUser = styled.h2`
   align-self: flex-start;
+  background: linear-gradient(to right,white 0%, whitesmoke  51%, honeydew 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin: 0;
   padding: 0;
   opacity: 0.8;
@@ -63,6 +66,7 @@ export const HeaderContentStatusText = styled.h6`
   margin: 0;
   padding: 0;
   opacity: 0.8;
+  color: wheat;
 
 `;
 
@@ -73,12 +77,9 @@ export const HeaderContentStatusLogo = styled.div`
   background: rgb(17, 255, 0);
   margin: 0.15rem;
 `;
-export const ChatList = styled.div`
-  background: #ddd;
-  margin: 1px;
-`
 
-const Chat = styled.span`
+
+const Chat = styled.div`
   background: #72b8ff;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
@@ -189,6 +190,22 @@ export const ChatSent = styled.button`
   }
 
 `;
+
+export const MiddleText = styled.h1`
+  font-size: 2rem;
+  opacity: 0.3;
+  background: linear-gradient(to right, #443e3e 0%, #5f5a5a 51%, #3c3d3c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 1rem;
+  margin: 25% 29%;
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 1.6;
+  user-select: none;
+  font-family: "Barlow Condensed Medium",sans-serif;
+
+`
 
 
 

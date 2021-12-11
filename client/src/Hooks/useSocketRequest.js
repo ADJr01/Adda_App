@@ -24,21 +24,18 @@ const useSocketRequest = (update_events = {}) => {
     // ? effect to Receive Notification
     useEffect(_=>{
         socket.on(event_list.newRequest,data=>{
-            console.log('New Request');
-            console.log(data)
             update_events.onNewReceievedRequest(data,user);
         })
 
         socket.on(event_list.newFriend,data=>{
-            console.log('New Friend');
-            console.log(data)
            update_events.onRequestApproval(data,user);
         });
         socket.on(event_list.newUser,data=>{
-            console.log('New User Found');
-            console.log(data);
             update_events.onNewUserRegistration(data);
-        })
+        });
+        socket.on(event_list.chat,data=>{
+           update_events.onNewChat(data);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[socket,user]);
 
