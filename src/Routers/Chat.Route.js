@@ -11,8 +11,9 @@ chatRouter.route('/send')
         const sender = req.body.sender;
         const content = req.body.content;
         const forUser = req.body.for;
-        const isSent =  notifier(event_list.chat,{"for":forUser,from: sender,content:content});
-        const isSaved = await controller.persistChat({sender:sender,receiver:forUser},content,isSent);
+        const time = req.body.sent_on;
+        const isSent =  notifier(event_list.chat,{"for":forUser,from: sender,sent_on:time,content:content});
+        const isSaved = await controller.persistChat({sender:sender,receiver:forUser},content,isSent,time);
         res.status(isSaved?200:406).json({
             success: isSaved,
             sent: isSent

@@ -47,7 +47,7 @@ export const SharedContext = ({children,}) => {
         onRequestApproval: (data, cu) => friendsHandler.onRequestApproval(data, cu),
         onNewUserRegistration: d => friendsHandler.onNewUserRegistration(d),
         onNewReceievedRequest: (data, cu) => friendsHandler.onNewReceievedRequest(data, cu),
-        onNewChat: data => chatContext.incoming(data)
+        onNewChat: data => chatContext.incoming(data,chatContext.CURRENT_HASH)
     });
 
     const authorized = useContext(Authorizer);

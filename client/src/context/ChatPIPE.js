@@ -2,12 +2,14 @@ import {createContext, useEffect, useState} from "react";
 import {simpleSTORAGE} from "../Utils/SimpleStorage";
 import {getPrevious, getUnReceived, sendMessage} from "./context-helper/ChatHelper/ChatHelper";
 import {log} from "../Utils/Utility";
+import {encodetoVersed} from "../Utils/Crypter";
 
 const chatHash = (str1, str2) => `${str1}${str2}`.split('').sort().join('');
 
 const store_name = '_coupled';
 const store = simpleSTORAGE(store_name);
 const ChatPipe = createContext({
+    CURRENT_HASH: '',
     ActiveChat: [],
     between: {},
     updateCouple: null,
@@ -26,16 +28,7 @@ export const ChatContext = props => {
     const [user, setUser] = useState({tu: '', ou: ''});
     const [coupleHash, setCoupleHash] = useState('');
     const [chatContent, updateChatContent] = useState('');
-    const [incomingChatHash, setIncomingChatHash] = useState('');
 
-
-    // * incoming hash update
-    useEffect(_ => {
-        if (incomingChatHash.length > 2 && coupleHash.length > 2) {
-            coupleHash === incomingChatHash && setActiveChatPipe(store.getItem(coupleHash, false));
-        }
-        incomingChatHash.length > 0 && setIncomingChatHash('');
-    }, [coupleHash, incomingChatHash])
 
 
     // * creating hash to persist
@@ -48,6 +41,8 @@ export const ChatContext = props => {
         }
 
     }, [coupleHash, coupleHash.length, user]);
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(async _ => {
         // * Check if simple storage have chat list.
@@ -56,7 +51,8 @@ export const ChatContext = props => {
         // * if server doesn't have data then simply show empty chat
         // * if local storage have data then ask server if we have any unreceived chat
         // * if we have any unreceived chat then get it or show existing chat array
-        if (coupleHash.length > 2 && user.tu.length > 2 && user.ou.length > 2) {
+        let requested = false;
+        if (!requested && coupleHash.length > 2 && user.tu.length > 2 && user.ou.length > 2) {
             let chatArray = store.getItem(coupleHash, false);
             chatArray && setActiveChatPipe(chatArray);
             if (!chatArray) {
@@ -77,8 +73,11 @@ export const ChatContext = props => {
                     store.useItem(coupleHash, chatArray);
                 }
             }
-        }else{
+        } else {
             setActiveChatPipe([]);
+        }
+        return _=>{
+            requested = true;
         }
 
     }, [coupleHash, user])
@@ -90,7 +89,7 @@ export const ChatContext = props => {
                 updateChatContent('');
                 const state = await sendMessage(user.tu, user.ou, text);
                 const prev = store.getItem(coupleHash, false);
-                const data = {sent_for: user.ou, sent_by: user.tu, content: text};
+                const data = {sent_on: Date.now() ,sent_for: user.ou, sent_by: user.tu, content: text};
                 state.success && store.useItem(coupleHash, ((prev && [...prev, data]) || [data]));
                 state.success && setActiveChatPipe(store.getItem(coupleHash, false))
                 return true;
@@ -104,13 +103,15 @@ export const ChatContext = props => {
     }
 
 
-    const onNewIncomingText = chat => {
-        const data = {sent_by: chat.from, sent_for: chat.for, content: chat.content}
+
+
+    const onNewIncomingText = (chat,current_hash) => {
+        console.log('Receiving')
+;        const data = {sent_by: chat.from, sent_for: chat.for, content: chat.content,sent_on:chat.sent_on}
         const hash = chatHash(data.sent_by, data.sent_for);
         const prev = store.getItem(hash, false);
         !prev ? store.useItem(hash, [data]) : store.useItem(hash, [...prev, data]);
-        setIncomingChatHash(hash);
-
+        current_hash === hash &&  setActiveChatPipe(store.getItem(current_hash, false));
     }
 
 
@@ -122,7 +123,8 @@ export const ChatContext = props => {
 
     return <ChatPipe.Provider
         value={{
-            updateCouple: (user, to)=> setUser({tu: user, ou: to}) ,
+            CURRENT_HASH: coupleHash,
+            updateCouple: (user, to) => setUser({tu: user, ou: to}),
             between: user,
             sendChat: send,
             incoming: onNewIncomingText,

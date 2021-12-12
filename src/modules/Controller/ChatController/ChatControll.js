@@ -72,13 +72,14 @@ const getUnReceived = async between => {
 
 }
 
-const persistChat = async (between, content, isSent) => {
+const persistChat = async (between, content, isSent,time) => {
     if (between.hasOwnProperty('sender') && between.hasOwnProperty('receiver')) {
         const chat_id = chatHash(between.sender, between.receiver);// ? creating hash for particular char couple
         const chat_list_based_on_id = await Chat.findOne({chatID: chat_id});
         if (chat_list_based_on_id !== null) {
             const chat_array = chat_list_based_on_id.chats;
             chat_array.push({
+                sent_on: time,
                 sent_for: between.receiver,
                 sent_by: between.sender,
                 content: content,
@@ -91,6 +92,7 @@ const persistChat = async (between, content, isSent) => {
                 chatID: chat_id,
                 chats: [
                     {
+                        sent_on: time,
                         sent_for: between.receiver,
                         sent_by: between.sender,
                         content: content,
